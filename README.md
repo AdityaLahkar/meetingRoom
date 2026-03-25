@@ -1,93 +1,28 @@
-<div align="center">
+# MeetRoom
 
-# 🏢 MeetRoom — Meeting Room Booking System
+A meeting room booking system built with Spring Boot. Supports booking rooms, viewing existing reservations, cancelling bookings, and handles time slot conflicts with automatic next-slot suggestions.
 
-A sleek, full-stack meeting room booking system built with **Spring Boot** and a modern **dark-themed UI**. Book rooms, view reservations, cancel bookings — with conflict detection and smart slot suggestions.
+**Live:** https://meetingroom-1-n02f.onrender.com
 
-### 🌐 [Live Demo →](https://meetingroom-1-n02f.onrender.com)
+> Free tier on Render — may take ~30s to wake up on first request.
 
-![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Render](https://img.shields.io/badge/Render-Live-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+## Tech Stack
 
-</div>
+- **Backend:** Java 21, Spring Boot 4.0
+- **Frontend:** HTML, CSS, JavaScript (served from Spring Boot static resources)
+- **API Docs:** SpringDoc OpenAPI (Swagger UI at `/docs`)
+- **Containerized:** Docker (multi-stage build)
 
----
+## API
 
-## ✨ Features
+| Method   | Endpoint              | Description                     |
+|----------|-----------------------|---------------------------------|
+| `POST`   | `/api/book`           | Book a room                     |
+| `GET`    | `/api/bookings/{roomId}` | Get bookings for a specific room |
+| `DELETE` | `/api/booking/{id}`   | Cancel a booking                |
 
-- 🗓️ **Book Meeting Rooms** — Select a room (A, B, or C), pick a time range, and reserve instantly
-- 👁️ **View Bookings** — Browse all scheduled meetings per room with detailed time info
-- 🗑️ **Cancel Bookings** — Delete reservations with a confirmation modal
-- ⚡ **Conflict Detection** — Automatically detects overlapping bookings and suggests the next available slot
-- 🔌 **Swagger API Docs** — Built-in OpenAPI documentation at `/docs`
-- 📱 **Responsive Design** — Works beautifully on desktop and mobile
-- 🌙 **Premium Dark Theme** — Glassmorphism, micro-animations, and floating particles
+### Booking Request
 
----
-
-## 📸 Screenshots
-
-<div align="center">
-
-### Book a Room
-<img src="screenshots/booking-page.png" alt="Booking Page" width="700"/>
-
-### Booking Confirmed
-<img src="screenshots/booking-confirmed.png" alt="Booking Confirmed Toast" width="700"/>
-
-### View Bookings
-<img src="screenshots/view-bookings.png" alt="View Bookings" width="700"/>
-
-### Cancel Booking Modal
-<img src="screenshots/delete-modal.png" alt="Delete Confirmation Modal" width="700"/>
-
-### Empty State
-<img src="screenshots/empty-state.png" alt="No Bookings Empty State" width="700"/>
-
-</div>
-
----
-
-## 🏗️ Architecture
-
-```
-┌────────────────────────────────────────────────┐
-│                  Frontend                       │
-│         (HTML + CSS + Vanilla JS)               │
-│    Served from Spring Boot static resources     │
-└────────────────┬───────────────────────────────┘
-                 │  REST API (JSON)
-┌────────────────▼───────────────────────────────┐
-│              Spring Boot Backend                │
-│                                                 │
-│  ┌─────────────┐  ┌──────────────┐             │
-│  │  Controller  │→│   Service    │             │
-│  │  /api/*      │  │  (Business   │             │
-│  │              │  │   Logic)     │             │
-│  └─────────────┘  └──────┬───────┘             │
-│                          │                      │
-│                 ┌────────▼────────┐             │
-│                 │  In-Memory Map  │             │
-│                 │  (Room → List)  │             │
-│                 └─────────────────┘             │
-└─────────────────────────────────────────────────┘
-```
-
----
-
-## 🔌 API Reference
-
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| `POST` | `/api/book` | Create a booking | `BookingRequest` |
-| `GET` | `/api/bookings/{roomId}` | Get all bookings for a room | — |
-| `DELETE` | `/api/booking/{id}` | Cancel a booking by ID | — |
-
-### Request: `BookingRequest`
 ```json
 {
   "roomId": "A",
@@ -96,17 +31,14 @@ A sleek, full-stack meeting room booking system built with **Spring Boot** and a
 }
 ```
 
-### Response: `BookingResponse`
+### Responses
 
-**Success:**
+On success:
 ```json
-{
-  "status": "success",
-  "message": "Booking successful"
-}
+{ "status": "success", "message": "Booking successful" }
 ```
 
-**Conflict (with suggested slot):**
+On conflict (returns a suggested available slot):
 ```json
 {
   "status": "conflict",
@@ -116,150 +48,46 @@ A sleek, full-stack meeting room booking system built with **Spring Boot** and a
 }
 ```
 
-**Error:**
-```json
-{
-  "status": "error",
-  "message": "Invalid room"
-}
+## Rooms
+
+Currently configured with 3 rooms — `A`, `B`, `C`. Adding more is straightforward:
+
+```java
+// BookingService.java
+roomBookings.put("D", new ArrayList<>());
 ```
 
-### Response: `Booking` (from GET endpoint)
-```json
-[
-  {
-    "id": "a1b2c3d4-...",
-    "roomId": "A",
-    "startTime": "2026-03-25T10:00:00",
-    "endTime": "2026-03-25T11:00:00"
-  }
-]
-```
+Data is stored in-memory (HashMap), so bookings reset on restart.
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Java 21+**
-- **Maven 3.9+** (included via Maven Wrapper)
-
-### Run Locally
+## Running Locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/<your-username>/meetingRoom.git
-cd meetingRoom
-
-# Start the application
 ./mvnw spring-boot:run
 ```
 
-The app will be live at **http://localhost:8080**
+App runs at `http://localhost:8080`. API docs at `http://localhost:8080/docs`.
 
-📄 Swagger API docs available at **http://localhost:8080/docs**
-
-### Run with Docker
+### Docker
 
 ```bash
-# Build the image
 docker build -t meetroom .
-
-# Run the container
 docker run -p 8080:8080 meetroom
 ```
 
----
-
-## 🌐 Live Deployment
-
-The app is deployed and live on **Render**:
-
-🔗 **https://meetingroom-1-n02f.onrender.com**
-
-| URL | What it does |
-|-----|-------------|
-| [/](https://meetingroom-1-n02f.onrender.com/) | Frontend UI |
-| [/docs](https://meetingroom-1-n02f.onrender.com/docs) | Swagger API Docs |
-| [/api/bookings/A](https://meetingroom-1-n02f.onrender.com/api/bookings/A) | GET Room A bookings |
-
-> ⚠️ **Note:** Free tier spins down after inactivity — first request may take ~30s to wake up.
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-meetingRoom/
-├── src/main/java/com/example/meetingRoom/
-│   ├── MeetingRoomApplication.java        # Entry point
-│   ├── controller/
-│   │   └── BookingController.java         # REST endpoints
-│   ├── service/
-│   │   └── BookingService.java            # Business logic & conflict detection
-│   ├── model/
-│   │   ├── Booking.java                   # Booking entity
-│   │   ├── BookingRequest.java            # Request DTO
-│   │   └── BookingResponse.java           # Response DTO
-│   └── exceptions/
-│       ├── BadRequestException.java       # Custom exception
-│       └── GlobalExceptionHandler.java    # Centralized error handling
-├── src/main/resources/
-│   ├── static/                            # Frontend (HTML/CSS/JS)
-│   └── application.properties
-├── frontend/                              # Frontend source (dev)
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-├── screenshots/                           # UI screenshots
-├── Dockerfile                             # Multi-stage Docker build
-├── pom.xml
-└── README.md
+src/main/java/com/example/meetingRoom/
+├── controller/BookingController.java    # REST endpoints
+├── service/BookingService.java          # Booking logic, conflict detection
+├── model/
+│   ├── Booking.java                     # Entity
+│   ├── BookingRequest.java              # Request DTO
+│   └── BookingResponse.java             # Response DTO
+└── exceptions/
+    ├── BadRequestException.java
+    └── GlobalExceptionHandler.java      # Global error handling
+
+src/main/resources/static/               # Frontend assets
+frontend/                                # Frontend source
 ```
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| **Backend** | Spring Boot 4.0, Java 21 |
-| **Frontend** | Vanilla HTML/CSS/JS |
-| **API Docs** | Swagger / SpringDoc OpenAPI |
-| **Deployment** | Docker, Render / Railway |
-| **Data Storage** | In-memory (HashMap) |
-
----
-
-## 📌 Rooms Available
-
-| Room ID | Name | Type |
-|---------|------|------|
-| `A` | Room A | Conference |
-| `B` | Room B | Boardroom |
-| `C` | Room C | Huddle |
-
-> 💡 **Adding more rooms?** Simply add new entries in `BookingService.java` constructor:
-> ```java
-> roomBookings.put("D", new ArrayList<>());
-> ```
-
----
-
-## 📋 Future Improvements
-
-- [ ] Persistent database (PostgreSQL / H2)
-- [ ] User authentication
-- [ ] Recurring meeting support
-- [ ] Calendar view (weekly/monthly)
-- [ ] Email notifications
-- [ ] Room capacity & amenities info
-
----
-
-<div align="center">
-
-Made with ☕ and Spring Boot
-
-</div>
