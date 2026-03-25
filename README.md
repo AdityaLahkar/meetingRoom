@@ -4,11 +4,14 @@
 
 A sleek, full-stack meeting room booking system built with **Spring Boot** and a modern **dark-themed UI**. Book rooms, view reservations, cancel bookings — with conflict detection and smart slot suggestions.
 
+### 🌐 [Live Demo →](https://meetingroom-1-n02f.onrender.com)
+
 ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Render](https://img.shields.io/badge/Render-Live-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 
 </div>
 
@@ -169,30 +172,19 @@ docker run -p 8080:8080 meetroom
 
 ---
 
-## 🌐 Deployment
+## 🌐 Live Deployment
 
-### Deploy to Render (Free)
+The app is deployed and live on **Render**:
 
-1. Push this repo to GitHub
-2. Go to [render.com](https://render.com) → **New Web Service**
-3. Connect your GitHub repo
-4. Configure:
-   - **Runtime:** Docker
-   - **Branch:** main
-   - **Instance Type:** Free
-5. Click **Deploy**
+🔗 **https://meetingroom-1-n02f.onrender.com**
 
-### Deploy to Railway
+| URL | What it does |
+|-----|-------------|
+| [/](https://meetingroom-1-n02f.onrender.com/) | Frontend UI |
+| [/docs](https://meetingroom-1-n02f.onrender.com/docs) | Swagger API Docs |
+| [/api/bookings/A](https://meetingroom-1-n02f.onrender.com/api/bookings/A) | GET Room A bookings |
 
-```bash
-# Install Railway CLI
-npm i -g @railway/cli
-
-# Login & deploy
-railway login
-railway init
-railway up
-```
+> ⚠️ **Note:** Free tier spins down after inactivity — first request may take ~30s to wake up.
 
 ---
 
