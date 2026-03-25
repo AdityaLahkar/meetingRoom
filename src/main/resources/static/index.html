@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meeting Room Booking System — Book, view, and manage meeting room reservations with ease.">
+    <title>MeetRoom — Meeting Room Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Header -->
+    <header class="header" id="appHeader">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <rect x="2" y="6" width="10" height="10" rx="2" fill="url(#g1)" opacity="0.9"/>
+                        <rect x="16" y="6" width="10" height="10" rx="2" fill="url(#g2)" opacity="0.7"/>
+                        <rect x="9" y="14" width="10" height="10" rx="2" fill="url(#g3)" opacity="0.8"/>
+                        <defs>
+                            <linearGradient id="g1" x1="2" y1="6" x2="12" y2="16"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+                            <linearGradient id="g2" x1="16" y1="6" x2="26" y2="16"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+                            <linearGradient id="g3" x1="9" y1="14" x2="19" y2="24"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#9333ea"/></linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Meet<span class="logo-accent">Room</span></span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="book" id="navBook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Book Room
+                </button>
+                <button class="nav-tab" data-tab="view" id="navView">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    View Bookings
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Book Room Section -->
+        <section class="section active" id="sectionBook">
+            <div class="section-header">
+                <h1>Book a Meeting Room</h1>
+                <p class="section-subtitle">Select a room, pick your time slot, and reserve instantly.</p>
+            </div>
+
+            <!-- Room Selector -->
+            <div class="room-selector" id="roomSelector">
+                <div class="room-card selected" data-room="A" id="roomCardA">
+                    <div class="room-card-glow"></div>
+                    <div class="room-icon room-icon-a">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                    </div>
+                    <h3>Room A</h3>
+                    <span class="room-tag">Conference</span>
+                </div>
+                <div class="room-card" data-room="B" id="roomCardB">
+                    <div class="room-card-glow"></div>
+                    <div class="room-icon room-icon-b">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>Room B</h3>
+                    <span class="room-tag">Boardroom</span>
+                </div>
+                <div class="room-card" data-room="C" id="roomCardC">
+                    <div class="room-card-glow"></div>
+                    <div class="room-icon room-icon-c">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    </div>
+                    <h3>Room C</h3>
+                    <span class="room-tag">Huddle</span>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <form class="booking-form glass-card" id="bookingForm" autocomplete="off">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startTime">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            Start Time
+                        </label>
+                        <input type="datetime-local" id="startTime" name="startTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            End Time
+                        </label>
+                        <input type="datetime-local" id="endTime" name="endTime" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="bookBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    Book Now
+                </button>
+            </form>
+
+            <!-- Toast / Result -->
+            <div class="toast-container" id="toastContainer"></div>
+        </section>
+
+        <!-- View Bookings Section -->
+        <section class="section" id="sectionView">
+            <div class="section-header">
+                <h1>Room Bookings</h1>
+                <p class="section-subtitle">View and manage all reservations for each room.</p>
+            </div>
+
+            <!-- Room Filter Tabs -->
+            <div class="room-filter-tabs" id="roomFilterTabs">
+                <button class="filter-tab active" data-room="A" id="filterA">
+                    <span class="filter-dot dot-a"></span> Room A
+                </button>
+                <button class="filter-tab" data-room="B" id="filterB">
+                    <span class="filter-dot dot-b"></span> Room B
+                </button>
+                <button class="filter-tab" data-room="C" id="filterC">
+                    <span class="filter-dot dot-c"></span> Room C
+                </button>
+            </div>
+
+            <!-- Bookings List -->
+            <div class="bookings-list glass-card" id="bookingsList">
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>Loading bookings...</p>
+                </div>
+                <div class="empty-state hidden" id="emptyState">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <h3>No bookings yet</h3>
+                    <p>This room has no scheduled meetings.</p>
+                </div>
+                <div id="bookingsContent"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay hidden" id="deleteModal">
+        <div class="modal glass-card">
+            <div class="modal-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            </div>
+            <h2>Cancel Booking?</h2>
+            <p>This action cannot be undone. The time slot will become available for others.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="cancelDeleteBtn">Keep It</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
